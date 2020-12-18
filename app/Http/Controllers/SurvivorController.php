@@ -36,6 +36,7 @@ class SurvivorController extends Controller
         $survivor->save();
         //Salvando o inventario e acrescentando os
 
+        $inventory->infected = $request->infected;
         $inventory->item = $request->item;
         $inventory->water = $request->water*4;
         $inventory->food = $request->food*3;
@@ -57,6 +58,7 @@ class SurvivorController extends Controller
 
         DB::beginTransaction();
         $survivor = Survivor::find($id);
+        $items = Items::find($id);
 
         if(!$survivor){
             return response()->json([
@@ -64,10 +66,12 @@ class SurvivorController extends Controller
             ]);
         }
 
+        $items->infected = $request->infected;
         $survivor->fill($request->all());
         $survivor->save();
+        $items->save();
 
-        if($survivor){
+        if($survivor && $items){
             DB::commit();
         } else {
             DB::rollBack();

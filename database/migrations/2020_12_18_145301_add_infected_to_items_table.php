@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddInfectedToSurvivorTable extends Migration
+class AddInfectedToItemsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,7 +14,9 @@ class AddInfectedToSurvivorTable extends Migration
     public function up()
     {
         Schema::table('items', function (Blueprint $table) {
-            $table->integer('infected')->unsigned();
+            $table->integer('infected')
+                ->nullable()
+                ->unsigned();
         });
     }
 
@@ -26,7 +28,7 @@ class AddInfectedToSurvivorTable extends Migration
     public function down()
     {
         Schema::table('items', function (Blueprint $table) {
-          //
+            //
         });
     }
 }
