@@ -54,7 +54,7 @@ MUNIÇÃO
 ```
 <h5>ITEM:</h5>
 ```
-[POST]:
+POST:
 
 {
     "troca":  [indique a categoria do inventario que você
