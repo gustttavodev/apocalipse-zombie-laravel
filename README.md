@@ -35,6 +35,13 @@ php artisan serve
 /api/survivor/{id}
 ```
 
+##RELATORIO
+```
+[GET]
+
+/api/relatorio
+```
+
 ##TROCAS
 ```
 INVENTARIO DO SOBREVIVENTE:
@@ -47,18 +54,21 @@ MUNIÇÃO
 ```
 <h5>ITEM:</h5>
 ```
-Sobreviventes carregam consigo [armas, facas, etc...]
-e eles podem fazer trocas desses objetos.
-
-obs: Sobreviventes infectados não podem fazer trocas !
-
 [POST]:
 
 {
-    "troca": "item" [indique o que você quer trocar]
+    "troca":  [indique a categoria do inventario que você
+    deseja trocar (ex: item, medicamento, agua...)
     "id": id da pessoa que solicitou a troca.
     "id_exchange": pessoa que vai fazer a troca.
 }
+```
+```
+Sobreviventes carregam consigo [armas, facas, etc...]
+e eles podem fazer trocas desses objetos.
+```
+```
+obs: Sobreviventes infectados não podem fazer trocas !
 ```
 <h5>ÁGUA:</h5>
 ```

@@ -23,7 +23,7 @@ Route::group(array('prefix' => 'api'), function (){
 
     Route::resource('survivor', 'SurvivorController');
 
-    Route::get('survivor/relatorio', 'SurvivorController@relatorio');
+    Route::get('relatorio', 'RelatorioController@relatorio');
 
     Route::get('/items', 'ItemsController@index');
     Route::post('/items/trocas', 'ItemsController@trocas');
