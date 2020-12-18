@@ -5,7 +5,7 @@ API REST LARAVEL <br> CASO APOCALIPSE ZOMBIE ACONTEÇA
 </h4>
 
 ## Primeiros passos
-###RUN:
+### RUN:
 ```
 compose install
 ```
@@ -15,34 +15,39 @@ php artisan migrate
 ```
 php artisan serve
 ```
-##GET
+## GET
 ```
 /api/survivor
 ```
 ```
 /api/survivor/{id}
 ```
-##POST
+## POST
 ```
 /api/survivor
 ```
-##PUT
+## PUT
 ```
 /api/survivor/{id}
 ```
-##DELETE
+## DELETE
 ```
 /api/survivor/{id}
 ```
 
-##RELATORIO
+## RELATORIO
 ```
 [GET]
 
 /api/relatorio
 ```
 
-##TROCAS
+## TROCAS
+```
+Sobreviventes carregam consigo [armas, facas, etc...]
+e eles podem fazer trocas desses objetos.
+```
+
 ```
 INVENTARIO DO SOBREVIVENTE:
 
@@ -52,37 +57,38 @@ COMIDA
 MEDICAMENTO
 MUNIÇÃO
 ```
-<h5>ITEM:</h5>
+### ITEM
 ```
-POST:
+ENVIE UM [POST] /api/items/trocas contendo:
 
-{
-    "troca":  [indique a categoria do inventario que você
-    deseja trocar (ex: item, medicamento, agua...)
-    "id": id da pessoa que solicitou a troca.
-    "id_exchange": pessoa que vai fazer a troca.
-}
+    {
+        "troca": "item",
+        "id": ,
+        "id_exchange": 
+    } 
+  
+ 1. troca = Aqui você deve informar quais dos items do inventario deseja fazer a troca, já que estamos trocando o item do inventario colocamos "item".
+ 2. id = Aqui você deve informar o id da pessoa que quer fazer a troca.
+ 3. id_exchange = Aqui deve informar o id da pessoa que aceitou a troca.
+
 ```
-```
-Sobreviventes carregam consigo [armas, facas, etc...]
-e eles podem fazer trocas desses objetos.
-```
+
 ```
 obs: Sobreviventes infectados não podem fazer trocas !
 ```
-<h5>ÁGUA:</h5>
+### AGUA
 ```
 EM BREVE
 ```
-<h5>COMIDA:</h5>
+### COMIDA
 ```
 EM BREVE
 ```
-<h5>MEDICAMENTO:</h5>
+### MEDICAMENTO
 ```
 EM BREVE
 ```
-<h5>MUNIÇÃO:</h5>
+### MUNIÇÃO
 ```
 EM BREVE
 ```
