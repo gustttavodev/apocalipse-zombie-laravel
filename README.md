@@ -1,4 +1,4 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://icons.iconarchive.com/icons/google/noto-emoji-people-stories/1024/10934-man-zombie-icon.png" width="200"></a></p>
+<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://icon-library.com/images/zombie-icon-png/zombie-icon-png-18.jpg" width="200"></a></p>
 
 <h4 align="center">
 API REST LARAVEL <br> CASO APOCALIPSE ZOMBIE ACONTEÇA

@@ -17,6 +17,5 @@ class RelatorioController extends Controller
         $relatorio['sobreviventes'] = $sobreviventes;
         $relatorio['infectados'] = $infectados;
         return json_encode($relatorio);
-        dd($relatorio);
     }
 }
