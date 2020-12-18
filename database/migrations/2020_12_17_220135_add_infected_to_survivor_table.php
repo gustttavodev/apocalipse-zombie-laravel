@@ -13,7 +13,7 @@ class AddInfectedToSurvivorTable extends Migration
      */
     public function up()
     {
-        Schema::table('survivor', function (Blueprint $table) {
+        Schema::table('items', function (Blueprint $table) {
             $table->integer('infected')->unsigned();
         });
     }
@@ -25,7 +25,7 @@ class AddInfectedToSurvivorTable extends Migration
      */
     public function down()
     {
-        Schema::table('survivor', function (Blueprint $table) {
+        Schema::table('items', function (Blueprint $table) {
           //
         });
     }

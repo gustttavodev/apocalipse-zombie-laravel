@@ -16,32 +16,40 @@ class ItemsController extends Controller
     }
 
     public function trocas(Request $request){
-//        $data = $request->all();
-//        $id = $data['id'];
-//        $id_2 = $data['id_exchange'];
-//        $exchange_1 = DB::select('select * from items where survivor_id = "'.$id.'" ');
-//        $exchange_2 = DB::select('select * from items where survivor_id = "'.$id_2.'" ');
-//
-//        if(!$data){
-//            return response()->json([
-//                'alert' => 'Para fazer uma troca você deve informar o
-//                [id] da pessoa que quer trocar  e [id] da pessoa que irá fazer a troca !'
-//            ], 404);
-//        }
-//
-//        if($exchange_1 && $exchange_2){
-//            foreach ($exchange_1[0] as $inventario){
-//                $items = [];
-//                array_push($items, $inventario);
-//            }
-//
-//            dd($items);
-//
-//            $item1 = $exchange_1->item;
-//            $item2 = $exchange_2->item;
-//            //O item não tem pontos, ou seja ambos sobreviventes podem trocar Armas por facas etc...
-//            $exchange_1->item = $item2;
-//            $exchange_2->item = $item1;
-//        }
+
+        $data = $request->all();
+        $troca = $data['troca'];
+        $id = $data['id']; //pessoa que solicitou a troca
+        $id_2 = $data['id_exchange']; //pessoa que irá trocar
+        $exchange_1 = DB::select('select * from items where survivor_id = "'.$id.'" ');
+        $exchange_2 = DB::select('select * from items where survivor_id = "'.$id_2.'" ');
+
+        if(!$troca && !$data || !$exchange_1 || !$exchange_2){
+            return response()->json([
+                'alert' => 'Desculpe não consegui prosseguir com a sua troca :('
+            ], 404);
+        }
+        if($troca == 'item' && $exchange_1 && $exchange_2){
+            $inventario_1 = (object)$exchange_1[0]; //transforma o array que veio da query, em um objeto
+            $inventario_2 = (object)$exchange_2[0];
+
+            $item_1 = $inventario_1->item;
+            $item_2 = $inventario_2->item;
+
+
+            // efetuando a troca
+            if($inventario_1->infected < 3 && $inventario_2->infected < 3){
+                DB::select('update items set item = "'.$item_2.'" where survivor_id = "'.$id.'" ');
+                DB::select('update items set item = "'.$item_1.'" where survivor_id = "'.$id_2.'" ');
+            } else {
+                return response()->json([
+                   'alert' => 'ALERTA! SOBREVIVENTE INFECTADO NÃO FOI POSSIVEL EFETUAR A TROCA!'
+                ]);
+            }
+
+            return response()->json([
+               'alert' => 'Troca efetuada !'
+            ]);
+        }
     }
 }

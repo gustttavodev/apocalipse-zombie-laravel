@@ -34,3 +34,47 @@ php artisan serve
 ```
 /api/survivor/{id}
 ```
+
+##TROCAS
+```
+INVENTARIO DO SOBREVIVENTE:
+
+ITEM
+ÁGUA
+COMIDA
+MEDICAMENTO
+MUNIÇÃO
+```
+<h5>ITEM:</h5>
+```
+Sobreviventes carregam consigo [armas, facas, etc...]
+e eles podem fazer trocas desses objetos.
+
+obs: Sobreviventes infectados não podem fazer trocas !
+
+[POST]:
+
+{
+    "troca": "item" [indique o que você quer trocar]
+    "id": id da pessoa que solicitou a troca.
+    "id_exchange": pessoa que vai fazer a troca.
+}
+```
+<h5>ÁGUA:</h5>
+```
+EM BREVE
+```
+<h5>COMIDA:</h5>
+```
+EM BREVE
+```
+<h5>MEDICAMENTO:</h5>
+```
+EM BREVE
+```
+<h5>MUNIÇÃO:</h5>
+```
+EM BREVE
+```
+
+

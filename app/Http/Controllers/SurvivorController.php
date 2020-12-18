@@ -56,19 +56,16 @@ class SurvivorController extends Controller
     public function update(Request $request, $id) {
 
         DB::beginTransaction();
-        $survivor = Survivor::findOrFail($id);
-
-        $survivor->longitude = $request->longitude;
-        $survivor->latitude = $request->latitude;
+        $survivor = Survivor::find($id);
 
         if(!$survivor){
             return response()->json([
                 'alert' => 'Survivor not found'
             ]);
         }
-        if($request->infected){
-            $survivor->infected = $request->infected;
-        }
+
+        $survivor->fill($request->all());
+        $survivor->save();
 
         if($survivor){
             DB::commit();
@@ -89,5 +86,9 @@ class SurvivorController extends Controller
         }
 
         $survivor->delete();
+    }
+
+    public function relatorio(){
+        echo "OK";
     }
 }
