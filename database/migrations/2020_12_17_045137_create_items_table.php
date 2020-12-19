@@ -16,10 +16,10 @@ class CreateItemsTable extends Migration
         Schema::create('items', function (Blueprint $table) {
             $table->increments('id');
             $table->string('item');
-            $table->integer('water');
-            $table->integer('food');
-            $table->integer('medicament');
-            $table->integer('ammunition');
+            $table->integer('water')->unsigned();
+            $table->integer('food')->unsigned();
+            $table->integer('medicament')->unsigned();
+            $table->integer('ammunition')->unsigned();
             $table->integer('survivor_id')->unsigned();
             $table->foreign('survivor_id')
                 ->references('id')
