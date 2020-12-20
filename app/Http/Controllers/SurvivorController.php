@@ -38,10 +38,10 @@ class SurvivorController extends Controller
 
         $inventory->infected = $request->infected;
         $inventory->item = $request->item;
-        $inventory->water = $request->water;
-        $inventory->food = $request->food;
-        $inventory->medicament = $request->medicament;
-        $inventory->ammunition = $request->ammunition;
+        $inventory->water = $request->water*4;
+        $inventory->food = $request->food*3;
+        $inventory->medicament = $request->medicament*2;
+        $inventory->ammunition = $request->ammunition*1;
         $inventory->survivor_id = $survivor->id;
         $inventory->save();
 
