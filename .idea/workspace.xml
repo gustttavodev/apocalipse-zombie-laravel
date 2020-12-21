@@ -3,8 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="cf290884-2429-4207-a6a4-9c38240806c4" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/SurvivorController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/SurvivorController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2020_12_18_145301_add_infected_to_items_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2020_12_18_145301_add_infected_to_items_table.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -156,7 +156,7 @@
       <workItem from="1608298758991" duration="25127000" />
       <workItem from="1608341898484" duration="1072000" />
       <workItem from="1608559288163" duration="453000" />
-      <workItem from="1608565366626" duration="1271000" />
+      <workItem from="1608565366626" duration="5105000" />
     </task>
     <servers />
   </component>

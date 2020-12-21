@@ -10,6 +10,18 @@ use Illuminate\Support\Facades\DB;
 class SurvivorController extends Controller
 {
     public function index() {
+        //Sobreviventes infectados automaticamente perdem todos os seus items.
+        Items::all()->map(function ($i){
+            if($i->infected >= 4){
+                $infectado_s = Items::where('survivor_id',$i->survivor_id)->first();
+                $infectado_s->item = '';
+                $infectado_s->water = 0;
+                $infectado_s->food = 0;
+                $infectado_s->medicament = 0;
+                $infectado_s->ammunition = 0;
+                $infectado_s->save();
+            }
+        });
         $survivor = Survivor::with('items')->get();
         return response()->json($survivor);
     }
@@ -66,10 +78,9 @@ class SurvivorController extends Controller
             ]);
         }
 
-        $items->infected = $request->infected;
         $survivor->fill($request->all());
         $survivor->save();
-        $items->save();
+
 
         if($survivor && $items){
             DB::commit();
