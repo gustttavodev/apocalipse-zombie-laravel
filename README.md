@@ -86,7 +86,7 @@ ENVIE UM [POST] /api/items/trocas contendo:
     
 W-F - TROCAR AGUA POR COMIDA.
 W-M - TROCAR AGUA POR MEDICAMENTO.
-W-A - TROCAR AGUA POR MUNIÇÃO
+W-A - TROCAR AGUA POR MUNIÇÃO.
 
 1. id_survivor_1 = Aqui você deve informar o id da pessoa que quer fazer a troca.
 2. id_survivor_2 = Aqui deve informar o id da pessoa que aceitou a troca.
@@ -94,15 +94,60 @@ W-A - TROCAR AGUA POR MUNIÇÃO
 ```
 ### COMIDA
 ```
-EM BREVE
+ENVIE UM [POST] /api/items/trocas contendo:
+  ex:
+    {
+        "survivor_troca": "F-W",
+        "id_survivor_1": 1 ,
+        "id_survivor_2": 2,
+        "quantity": 1
+    }
+    
+F-W - TROCAR COMIDA POR AGUA.
+F-M - TROCAR COMIDA POR MEDICAMENTO.
+F-A - TROCAR COMIDA POR MUNIÇÃO.
+
+1. id_survivor_1 = Aqui você deve informar o id da pessoa que quer fazer a troca.
+2. id_survivor_2 = Aqui deve informar o id da pessoa que aceitou a troca.
+3. quantity: Quantidade que deseja trocar.
 ```
 ### MEDICAMENTO
 ```
-EM BREVE
+ENVIE UM [POST] /api/items/trocas contendo:
+  ex:
+    {
+        "survivor_troca": "M-W",
+        "id_survivor_1": 1 ,
+        "id_survivor_2": 2,
+        "quantity": 1
+    }
+    
+M-W - TROCAR MEDICAMENTO POR AGUA.
+M-F - TROCAR MEDICAMENTO POR COMIDA.
+M-A - TROCAR MEDICAMENTO POR MUNIÇÃO.
+
+1. id_survivor_1 = Aqui você deve informar o id da pessoa que quer fazer a troca.
+2. id_survivor_2 = Aqui deve informar o id da pessoa que aceitou a troca.
+3. quantity: Quantidade que deseja trocar.
 ```
 ### MUNIÇÃO
 ```
-EM BREVE
+ENVIE UM [POST] /api/items/trocas contendo:
+  ex:
+    {
+        "survivor_troca": "M-W",
+        "id_survivor_1": 1 ,
+        "id_survivor_2": 2,
+        "quantity": 1
+    }
+    
+A-W - TROCAR MUNIÇÃO POR AGUA.
+A-F - TROCAR MUNIÇÃO POR COMIDA.
+A-M - TROCAR MUNIÇÃO POR MEDICAMENTO.
+
+1. id_survivor_1 = Aqui você deve informar o id da pessoa que quer fazer a troca.
+2. id_survivor_2 = Aqui deve informar o id da pessoa que aceitou a troca.
+3. quantity: Quantidade que deseja trocar.
 ```
 
 

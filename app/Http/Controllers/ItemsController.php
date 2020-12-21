@@ -14,155 +14,155 @@ class ItemsController extends Controller
         return Items::all();
     }
 
-    public function trocas(Request $request)
-    {
-        $data = $request->all();
-        $survivor_troca = $data['survivor_troca']; // Survivor troca é o que irá ser trocado do inventario.
-        $id_survivor_1 = $data['id_survivor_1']; //pessoa que solicitou a troca
-        $id_survivor_2 = $data['id_survivor_2']; //pessoa que irá trocar
-        $survivor_1 = DB::select('select * from items where survivor_id = "'.$id_survivor_1.'"');
-        $survivor_2 = DB::select('select * from items where survivor_id = "'.$id_survivor_2.'"');
-
-        if (!$survivor_troca || !$id_survivor_1 || !$id_survivor_2) {
-            return response()->json([
-                'alert' => 'Desculpe não consegui prosseguir com a sua survivor_troca :('
-            ], 404);
-        }
-        $inventario_1 = (object)$survivor_1[0]; //mochila do sobrevivente 1
-        $inventario_2 = (object)$survivor_2[0]; //mochila do sobrevivente 2
-
-        if ($survivor_troca == 'item'){
-
-            $item_1 = $inventario_1->item;
-            $item_2 = $inventario_2->item;
-            // efetuando a troca
+    public function trocandoItems($quantity,$inventario_1,$inventario_2,$trocar_1,$trocar_2,$points_1,$points_2){
+        DB::beginTransaction();
+        /* $quantity = Quantidade que irá trocar
+         * $inventario_1 = Inventario do primeiro sobrevivente
+         * $inventario_2 = Inventario do segundo sobrevivente
+         * $trocar_1 = O que irá ser trocado (water,food...)
+         * $trocar_2 = Segunda coisa que irá ser trocado (water,food...)
+         * $poits_1 = Quantidade de pontos que o primeiro produto vale.
+         * $poits_2 = Quantidade de pontos que o segundo produto vale.
+         * */
+        if($inventario_1->$trocar_1 >= $points_2 && $inventario_2->$trocar_2 >= $points_2 && $quantity > 0) {
 
             if ($inventario_1->infected >= 3 || $inventario_2->infected >= 3) {
                 return response()->json([
                     'alert' => 'SOBREVIVENTE INFECTADO NÃO FOI POSSIVEL EFETUAR A TROCA!'
                 ]);
             }
-            DB::select('update items set item = "'.$item_2.'" where survivor_id = "'.$inventario_1->survivor_id .'"');
-            DB::select('update items set item = "'.$item_1.'" where survivor_id = "'.$inventario_2->survivor_id.'"');
-        } else {
-            switch ($survivor_troca):
+            $survivor_1 = Items::where('survivor_id', $inventario_1->survivor_id)->first();
+            $survivor_2 = Items::where('survivor_id', $inventario_2->survivor_id)->first();
 
-                case 'W-F': // W-F caso o sobrevente queira trocar seus pontos de agua por comida.
-                    DB::beginTransaction();
-                    $points_water_1 = $inventario_1->water; // Pega a quantidade de pontos de agua o sobrevivente tem;
-                    $points_food_2 = $inventario_2->food;
-                    $quantity = $data['quantity'];
+            $survivor_1->$trocar_1 = $inventario_1->$trocar_1 - ($quantity * $points_2);
+            $survivor_2->$trocar_2 = $inventario_2->$trocar_2 - ($quantity * $points_2);
 
-                    if($points_water_1 >= 4 && $points_food_2 >= 3 && $quantity > 0){
+            $survivor_1->$trocar_2 = $inventario_1->$trocar_2 + ($quantity * $points_2);
+            $survivor_2->$trocar_1 = $inventario_2->$trocar_1 + ($quantity * $points_2);
 
-                        if ($inventario_1->infected >= 3 || $inventario_2->infected >= 3) {
-                            return response()->json([
-                                'alert' => 'SOBREVIVENTE INFECTADO NÃO FOI POSSIVEL EFETUAR A TROCA!'
-                            ]);
-                        }
-                        $points_water_1 = $inventario_1->water - $quantity*3;
-                        $points_food_2 = $inventario_2->food - $quantity*3;
+            $survivor_1->save();
+            $survivor_2->save();
+            DB::commit();
 
-                        //Efetuando a remoção dos pontos para depois efetuar a troca
-                        DB::select('update items set water = "'.$points_water_1.'" where survivor_id = "'.$inventario_1->survivor_id.'"');
-                        DB::select('update items set food = "'.$points_food_2.'" where survivor_id = "'.$inventario_2->survivor_id.'"');
+            return ['alert' => 'Troca efetuada com sucesso !'];
+        }
+         else {
+             DB::rollBack();
+            response()->json([
+                'alert' => "Não foi possivel efetuar a troca, verifique seus pontos."
+            ]);
 
-                        $points_food_1 = $inventario_1->food + $quantity*3;
-                        $points_water_2 = $inventario_2->water + $quantity*3;
-                        //Agora eu atualizo  os pontos de cada sobrevivente
-                        DB::select('update items set food = "'.$points_food_1.'" where survivor_id = "'.$inventario_1->survivor_id.'"');
-                        DB::select('update items set water = "'.$points_water_2.'" where survivor_id = "'.$inventario_2->survivor_id.'"');
-
-                        DB::commit();
-                        return "Troca efetuada com sucesso !";
-                    } else {
-                        DB::rollBack();
-                        return response()->json([
-                            'alert' => "Não foi possivel efetuar a troca, verifique seus pontos."
-                        ]);
-                    }
-                case 'W-M': // W-M caso o sobrevente queira trocar seus pontos de agua por medicamento.
-                    DB::beginTransaction();
-                    $points_water_1 = $inventario_1->water;
-                    $points_ammunition_2 = $inventario_2->medicament;
-                    $quantity = $data['quantity'];
-
-                    if($points_water_1 >= 4 && $points_ammunition_2 >= 2 && $quantity > 0){
-
-                        if ($inventario_1->infected >= 3 || $inventario_2->infected >= 3) {
-                            return response()->json([
-                                'alert' => 'SOBREVIVENTE INFECTADO NÃO FOI POSSIVEL EFETUAR A TROCA!'
-                            ]);
-                        }
-
-                        $points_water_1 = $inventario_1->water - $quantity*2;
-                        $points_ammunition_2 = $inventario_2->medicament - $quantity*2;
-
-                        //Efetuando a remoção dos pontos para depois efetuar a troca
-                        DB::select('update items set water = "'.$points_water_1.'" where survivor_id = "'.$inventario_1->survivor_id.'"');
-                        DB::select('update items set medicament = "'.$points_ammunition_2.'" where survivor_id = "'.$inventario_2->survivor_id.'"');
-
-                        $points_medicament_1 = $inventario_1->medicament + $quantity*2;
-                        $points_water_2 = $inventario_2->water + $quantity*2;
-
-                        //Agora eu atualizo  os pontos de cada sobrevivente
-                        DB::select('update items set medicament = "'.$points_medicament_1.'" where survivor_id = "'.$inventario_1->survivor_id.'"');
-                        DB::select('update items set water = "'.$points_water_2.'" where survivor_id = "'.$inventario_2->survivor_id.'"');
-
-                        DB::commit();
-                        return "Troca efetuada com sucesso !";
-
-                    } else {
-                        DB::rollBack();
-                        return response()->json([
-                            'alert' => "Não foi possivel efetuar a troca, verifique seus pontos."
-                        ]);
-                    }
-                case 'W-A':
-                    DB::beginTransaction();
-                    $points_water_1 = $inventario_1->water;
-                    $points_ammunition_2 = $inventario_2->ammunition;
-                    $quantity = $data['quantity'];
-
-                    if($points_water_1 >= 4 && $points_ammunition_2 >= 1 && $quantity > 0){
-
-                        if ($inventario_1->infected >= 3 || $inventario_2->infected >= 3) {
-                            return response()->json([
-                                'alert' => 'SOBREVIVENTE INFECTADO NÃO FOI POSSIVEL EFETUAR A TROCA!'
-                            ]);
-                        }
-                        $points_water_1 = $inventario_1->water - $quantity*1;
-                        $points_ammunition_2 = $inventario_2->ammunition - $quantity*1;
-
-                        //Efetuando a remoção dos pontos para depois efetuar a troca
-                        DB::select('update items set water = "'.$points_water_1.'" where survivor_id = "'.$inventario_1->survivor_id.'"');
-                        DB::select('update items set ammunition = "'.$points_ammunition_2.'" where survivor_id = "'.$inventario_2->survivor_id.'"');
-
-                        $points_ammunition_1 = $inventario_1->ammunition + $quantity*1;
-                        $points_water_2 = $inventario_2->water + $quantity*1;
-
-                        //Agora eu atualizo  os pontos de cada sobrevivente
-                        DB::select('update items set ammunition = "'.$points_ammunition_1.'" where survivor_id = "'.$inventario_1->survivor_id.'"');
-                        DB::select('update items set water = "'.$points_water_2.'" where survivor_id = "'.$inventario_2->survivor_id.'"');
-
-                        DB::commit();
-                        return "Troca efetuada com sucesso !";
-
-                    } else {
-                        DB::rollBack();
-                        return response()->json([
-                            'alert' => "Não foi possivel efetuar a troca, verifique seus pontos."
-                        ]);
-                    }
-
-
-
-            endswitch;
         }
     }
 
+    public function trocas(Request $request)
+    {
+        $data = $request->all();
+        $data['survivor_troca'] = strtoupper($data['survivor_troca']);
+        $survivor_troca = $data['survivor_troca']; // Survivor troca é o que irá ser trocado do inventario.
+        $id_survivor_1 = $data['id_survivor_1']; //pessoa que solicitou a troca
+        $id_survivor_2 = $data['id_survivor_2']; //pessoa que irá trocar
+        $survivor_1 = DB::select('select * from items where survivor_id = "'.$id_survivor_1.'"');
+        $survivor_2 = DB::select('select * from items where survivor_id = "'.$id_survivor_2.'"');
+        $inventario_1 = (object)$survivor_1[0]; //mochila do sobrevivente 1
+        $inventario_2 = (object)$survivor_2[0]; //mochila do sobrevivente 2
+
+        if (!$survivor_troca || !$id_survivor_1 || !$id_survivor_2) {
+            return response()->json([
+                'alert' => 'Desculpe não consegui prosseguir com a sua survivor_troca :('
+            ], 404);
+        }
+
+        switch ($survivor_troca):
 
 
+            case 'ITEM':
+                $item_1 = $inventario_1->item;
+                $item_2 = $inventario_2->item;
 
+                if ($inventario_1->infected >= 3 || $inventario_2->infected >= 3) {
+                    return response()->json([
+                        'alert' => 'SOBREVIVENTE INFECTADO NÃO FOI POSSIVEL EFETUAR A TROCA!'
+                    ]);
+                }
+                DB::select('update items set item = "'.$item_2.'" where survivor_id = "'.$inventario_1->survivor_id .'"');
+                DB::select('update items set item = "'.$item_1.'" where survivor_id = "'.$inventario_2->survivor_id.'"');
+                break;
+            case 'W-F': // W-F caso o sobrevente queira trocar seus pontos de agua por comida.
+
+                $quantity = $data['quantity'];
+                $trocar_1 = 'water';
+                $trocar_2 = 'food';
+                $this->trocandoItems($quantity,$inventario_1,$inventario_2,$trocar_1,$trocar_2,4,3);
+                break;
+            case 'W-M':
+                $quantity = $data['quantity'];
+                $trocar_1 = 'water';
+                $trocar_2 = 'medicament';
+                $this->trocandoItems($quantity,$inventario_1,$inventario_2,$trocar_1,$trocar_2,4,2);
+                break;
+            case 'W-A':
+                $quantity = $data['quantity'];
+                $trocar_1 = 'water';
+                $trocar_2 = 'ammunition';
+                $this->trocandoItems($quantity,$inventario_1,$inventario_2,$trocar_1,$trocar_2,4,1);
+                break;
+            case 'F-W':
+                $quantity = $data['quantity'];
+                $trocar_1 = 'food';
+                $trocar_2 = 'water';
+                $this->trocandoItems($quantity,$inventario_1,$inventario_2,$trocar_1,$trocar_2,3,4);
+                break;
+            case 'F-M':
+                $quantity = $data['quantity'];
+                $trocar_1 = 'food';
+                $trocar_2 = 'medicament';
+                $this->trocandoItems($quantity,$inventario_1,$inventario_2,$trocar_1,$trocar_2,3,2);
+                break;
+            case 'F-A':
+                $quantity = $data['quantity'];
+                $trocar_1 = 'food';
+                $trocar_2 = 'ammunition';
+                $this->trocandoItems($quantity,$inventario_1,$inventario_2,$trocar_1,$trocar_2,3,1);
+                break;
+            case 'M-W':
+                $quantity = $data['quantity'];
+                $trocar_1 = 'medicament';
+                $trocar_2 = 'water';
+                $this->trocandoItems($quantity,$inventario_1,$inventario_2,$trocar_1,$trocar_2,2,4);
+                break;
+            case 'M-F':
+                $quantity = $data['quantity'];
+                $trocar_1 = 'medicament';
+                $trocar_2 = 'food';
+                $this->trocandoItems($quantity,$inventario_1,$inventario_2,$trocar_1,$trocar_2,2,3);
+                break;
+            case 'M-A':
+                $quantity = $data['quantity'];
+                $trocar_1 = 'medicament';
+                $trocar_2 = 'ammunition';
+                $this->trocandoItems($quantity,$inventario_1,$inventario_2,$trocar_1,$trocar_2,2,1);
+                break;
+            case 'A-W':
+                $quantity = $data['quantity'];
+                $trocar_1 = 'ammunition';
+                $trocar_2 = 'water';
+                $this->trocandoItems($quantity,$inventario_1,$inventario_2,$trocar_1,$trocar_2,1,4);
+                break;
+            case 'A-F':
+                $quantity = $data['quantity'];
+                $trocar_1 = 'ammunition';
+                $trocar_2 = 'food';
+                $this->trocandoItems($quantity,$inventario_1,$inventario_2,$trocar_1,$trocar_2,1,3);
+                break;
+            case 'A-M':
+                $quantity = $data['quantity'];
+                $trocar_1 = 'ammunition';
+                $trocar_2 = 'medicament';
+                $this->trocandoItems($quantity,$inventario_1,$inventario_2,$trocar_1,$trocar_2,1,2);
+                break;
+        endswitch;
+
+    }
 
 }

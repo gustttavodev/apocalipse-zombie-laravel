@@ -92,7 +92,4 @@ class SurvivorController extends Controller
         $survivor->delete();
     }
 
-    public function relatorio(){
-        echo "OK";
-    }
 }
