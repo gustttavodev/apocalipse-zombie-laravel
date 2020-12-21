@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+Route::post('denuncia', 'DenunciaController@denuncia');
 
 Route::get('survivor', 'SurvivorController@index');
 Route::get('survivor/{id}', 'SurvivorController@show');

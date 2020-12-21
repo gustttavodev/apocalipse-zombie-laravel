@@ -41,6 +41,18 @@ php artisan serve
 
 /api/relatorio
 ```
+## DENUNCIAR INFECTADO
+```
+[POST]
+
+/api/denuncia
+
+{
+    "survivor_id_infected": id
+    
+}
+   id - survivor_id da pessoa infectada.
+```
 ## INVENTARIO
 ```
 ITEM
