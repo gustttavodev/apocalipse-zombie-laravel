@@ -35,12 +35,19 @@ php artisan serve
 /api/survivor/{id}
 ```
 
-## RELATORIO
+## RELATORIO DE SOBREVIVENTES E INFECTADOS
 ```
 [GET]
 
 /api/relatorio
 ```
+## GERAR EXEL DO RELATORIO
+```
+[GET]
+
+/api/exel
+```
+
 ## DENUNCIAR INFECTADO
 ```
 [POST]

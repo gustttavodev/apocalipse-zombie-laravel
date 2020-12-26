@@ -2,9 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cf290884-2429-4207-a6a4-9c38240806c4" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_18_12_2020_19_27_[Default_Changelist]/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_18_12_2020_19_27__Default_Changelist_.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/SurvivorController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/SurvivorController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2020_12_18_145301_add_infected_to_items_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2020_12_18_145301_add_infected_to_items_table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/DenunciaController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/DenunciaController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/RelatorioController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/RelatorioController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -133,7 +137,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../api-php-cep" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
@@ -156,7 +160,9 @@
       <workItem from="1608298758991" duration="25127000" />
       <workItem from="1608341898484" duration="1072000" />
       <workItem from="1608559288163" duration="453000" />
-      <workItem from="1608565366626" duration="5105000" />
+      <workItem from="1608565366626" duration="5329000" />
+      <workItem from="1608580226698" duration="242000" />
+      <workItem from="1608955578245" duration="5239000" />
     </task>
     <servers />
   </component>

@@ -24,6 +24,7 @@ Route::group(array('prefix' => 'api'), function (){
     Route::resource('survivor', 'SurvivorController');
 
     Route::get('relatorio', 'RelatorioController@relatorio');
+    Route::get('exel', 'RelatorioController@gerarExel');
     Route::post('denuncia', 'DenunciaController@denuncia');
 
     Route::get('/items', 'ItemsController@index');
